@@ -8,20 +8,19 @@ The `Security Control Automation` folder focuses on automating security controls
 ### Identify Control
 - Identify a security control to automate (such as patch management or log analysis).
 - Document why you chose this control.
-- Resource: [AWS Automation Cookbook](https://aws.amazon.com/whitepapers/automating-security-in-aws/), [Azure Automation](https://docs.microsoft.com/en-us/azure/automation/automation-intro)
+- Resource: [AWS Automation Cookbook](https://www.amazon.com/AWS-Automation-Cookbook-Continuous-Integration/dp/1788394925), [Azure Automation](https://learn.microsoft.com/en-us/azure/automation/overview)
 
 ### Automation Tool
 - Choose an automation tool or framework (such as AWS Lambda or Ansible).
 - Document why you chose this tool.
-- Resource: [AWS Lambda](https://docs.aws.amazon.com/lambda/latest/dg/welcome.html), [Ansible Documentation](https://docs.ansible.com/ansible/latest/index.html)
+- Resource: [AWS Lambda](https://aws.amazon.com/lambda/), [Ansible Documentation](https://docs.ansible.com/)
 
 ### Workflow
 - Define the automation workflow and integrate it with your cloud infrastructure.
 - Document your workflow and provide examples.
-- Resource: [AWS Step Functions](https://aws.amazon.com/step-functions/), [Azure Logic Apps](https://docs.microsoft.com/en-us/azure/logic-apps/logic-apps-overview)
+- Resource: [AWS Step Functions](https://aws.amazon.com/step-functions/), [Azure Logic Apps](https://learn.microsoft.com/en-us/azure/logic-apps/logic-apps-overview)
 
 ### Testing
 - Test your automation to ensure it's effective in improving efficiency and reducing manual effort.
 - Document your testing process and the results.
-- Resource: [AWS Systems Manager Automation](https://docs.aws.amazon.com/systems-manager/latest/userguide/systems-manager-automation.html), [Azure Automation Testing](https://docs.microsoft.com/en-us/azure/automation/automation-first-runbook-textual)
-
+- Resource: [AWS Systems Manager Automation](https://docs.aws.amazon.com/systems-manager/latest/userguide/systems-manager-automation.html), [Azure Automation Testing](https://learn.microsoft.com/en-us/azure/devops/test/run-automated-tests-from-test-hub)
