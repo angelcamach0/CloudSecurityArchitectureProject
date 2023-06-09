@@ -7,11 +7,11 @@ The `Security Assessments` folder provides guidance on conducting comprehensive 
 
 ### Requirements
 - Define the scope of your security assessment. What parts of your infrastructure will you assess?
-- Resource: [NIST Risk Management Guide](https://csrc.nist.gov/publications/detail/sp/800-37/rev-2/final)
+- Resource: [NIST Risk Management Guide](https://csrc.nist.gov/publications/detail/sp/800-30/rev-1/final)
 
 ### Assets and Components
 - Identify the assets and components that will be included in the assessment.
-- Resource: [Asset Identification Guide](https://www.enisa.europa.eu/publications/information-security-and-privacy-standards-for-sme-s)
+- Resource: [Asset Identification Guide](https://www.cdse.edu/Portals/124/Documents/jobaids/industrial/asset-identification-guide.pdf)
 
 ### Methodology
 - Choose an assessment methodology (penetration testing, vulnerability scanning, etc.) and document why you chose this method.
@@ -19,7 +19,7 @@ The `Security Assessments` folder provides guidance on conducting comprehensive 
 
 ### Conduct Assessment
 - Carry out the security assessment. Document the process and the tools used.
-- Resource: [NIST Assessment Procedures](https://csrc.nist.gov/Projects/risk-management/assessment-procedures)
+- Resource: [NIST Assessment Procedures](https://csrc.nist.gov/publications/detail/sp/800-53a/rev-5/final)
 
 ### Vulnerabilities and Risks
 - Identify and prioritize the vulnerabilities and risks you find.
@@ -28,5 +28,4 @@ The `Security Assessments` folder provides guidance on conducting comprehensive 
 
 ### Report
 - Write a report with recommendations for remediation.
-- Resource: [Sample Penetration Testing Report](https://www.offensive-security.com/reports/sample-penetration-testing-report.pdf)
-
+- Resource: [Sample Penetration Testing Report](https://purplesec.us/wp-content/uploads/2019/12/Sample-Penetration-Test-Report-PurpleSec.pdf)
