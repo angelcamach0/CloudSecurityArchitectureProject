@@ -11,19 +11,18 @@ The `Disaster Recovery Planning` folder focuses on developing robust disaster re
 
 ### RTOs and RPOs
 - Define Recovery Time Objectives (RTOs) and Recovery Point Objectives (RPOs) for each asset.
-- Resource: [AWS Disaster Recovery Guide](https://d1.awsstatic.com/whitepapers/aws-disaster-recovery.pdf)
+- Resource: [AWS Disaster Recovery Guide](https://docs.aws.amazon.com/whitepapers/latest/disaster-recovery-workloads-on-aws/disaster-recovery-options-in-the-cloud.html)
 
 ### Disaster Recovery Solution
 - Choose a disaster recovery solution (such as AWS Disaster Recovery or Azure Site Recovery).
 - Document why you chose this solution.
-- Resource: [Azure Site Recovery Documentation](https://docs.microsoft.com/en-us/azure/site-recovery/)
+- Resource: [Azure Site Recovery Documentation](https://learn.microsoft.com/en-us/azure/site-recovery/)
 
 ### Configure and Test
 - Set up your disaster recovery solution. Test it to ensure it meets your business continuity requirements.
 - Document your setup process and the results of your tests.
-- Resource: [AWS Disaster Recovery Testing](https://aws.amazon.com/blogs/storage/testing-your-disaster-recovery-solution-with-cloudendure-disaster-recovery/)
+- Resource: [AWS Disaster Recovery Testing](https://docs.aws.amazon.com/whitepapers/latest/disaster-recovery-workloads-on-aws/testing-disaster-recovery.html)
 
 ### Disaster Recovery Plan
 - Write your disaster recovery plan and keep it updated.
-- Resource: [Disaster Recovery Plan Template](https://www.drj.com/tools/sample-plans/disaster-recovery-plan-template.html)
-
+- Resource: [Disaster Recovery Plan Template](https://www.microfocus.com/media/unspecified/disaster_recovery_planning_template_revised.pdf)
