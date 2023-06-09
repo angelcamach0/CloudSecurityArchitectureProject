@@ -8,20 +8,19 @@ The `Secure DevOps Pipeline` folder is dedicated to developing a secure and effi
 ### DevOps Solution
 - Choose a cloud-based DevOps pipeline solution (such as AWS CodePipeline or Azure DevOps).
 - Document why you chose this solution.
-- Resource: [AWS CodePipeline](https://aws.amazon.com/codepipeline/), [Azure DevOps](https://azure.microsoft.com/en-us/services/devops/)
+- Resource: [AWS CodePipeline](https://aws.amazon.com/codepipeline/), [Azure DevOps](https://azure.microsoft.com/en-us/products/devops)
 
 ### Security Controls
 - Define security controls to integrate into the pipeline (such as secure coding practices or vulnerability scanning).
 - Document your controls and provide examples.
-- Resource: [AWS DevSecOps Workshop](https://aws.amazon.com/devops/devsecops/), [Azure DevOps Security](https://docs.microsoft.com/en-us/azure/devops/security/?view=azure-devops)
+- Resource: [AWS DevSecOps Workshop](https://workshops.aws/categories/DevSecOps), [Azure DevOps Security](https://learn.microsoft.com/en-us/azure/devops/organizations/security/security-best-practices)
 
 ### Automation
 - Develop automation to perform security reviews and approvals.
 - Document your automation process and provide examples.
-- Resource: [AWS CodeStar](https://aws.amazon.com/codestar/), [Azure DevOps Pipelines](https://azure.microsoft.com/en-us/services/devops/pipelines/)
+- Resource: [AWS CodeStar](https://aws.amazon.com/codestar/), [Azure DevOps Pipelines](https://azure.microsoft.com/en-us/products/devops/pipelines)
 
 ### Testing
 - Test your pipeline to ensure it's effective in delivering secure code.
 - Document your testing process and the results.
-- Resource: [AWS CodeBuild](https://aws.amazon.com/codebuild/), [Azure Test Plans](https://azure.microsoft.com/en-us/services/devops/test-plans/)
-
+- Resource: [AWS CodeBuild](https://aws.amazon.com/codebuild/), [Azure Test Plans](https://azure.microsoft.com/en-us/products/devops/test-plans)
