@@ -1,4 +1,4 @@
-import { useState, useRef } from "react";
+import { useEffect, useState, useRef } from "react";
 import { motion } from "framer-motion";
 
 import { styles } from "../styles";
@@ -16,6 +16,49 @@ const Contact = () => {
   const [loading, setLoading] = useState(false);
   const [honeypot, setHoneypot] = useState("");
   const [lastSubmitAt, setLastSubmitAt] = useState(0);
+  const [turnstileToken, setTurnstileToken] = useState("");
+  const [turnstileError, setTurnstileError] = useState(false);
+  const turnstileRef = useRef(null);
+  const turnstileWidgetId = useRef(null);
+  const turnstileSiteKey = import.meta.env.VITE_TURNSTILE_SITE_KEY;
+
+  useEffect(() => {
+    if (!turnstileSiteKey || !turnstileRef.current) {
+      return;
+    }
+
+    let attempts = 0;
+    const renderWidget = () => {
+      if (!window.turnstile || !turnstileRef.current) {
+        return false;
+      }
+
+      turnstileWidgetId.current = window.turnstile.render(turnstileRef.current, {
+        sitekey: turnstileSiteKey,
+        callback: (token) => {
+          setTurnstileToken(token);
+          setTurnstileError(false);
+        },
+        "error-callback": () => setTurnstileError(true),
+        "expired-callback": () => setTurnstileToken(""),
+      });
+
+      return true;
+    };
+
+    if (renderWidget()) {
+      return;
+    }
+
+    const interval = setInterval(() => {
+      attempts += 1;
+      if (renderWidget() || attempts > 20) {
+        clearInterval(interval);
+      }
+    }, 250);
+
+    return () => clearInterval(interval);
+  }, [turnstileSiteKey]);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -43,6 +86,14 @@ const Contact = () => {
       alert("Please enter a valid email address.");
       return;
     }
+    if (!turnstileSiteKey) {
+      alert("Verification is not configured.");
+      return;
+    }
+    if (!turnstileToken) {
+      alert("Please complete the verification.");
+      return;
+    }
     setLoading(true);
 
     try {
@@ -54,6 +105,7 @@ const Contact = () => {
           email: form.email.trim(),
           message: form.message.trim(),
           website: honeypot.trim(),
+          turnstileToken,
         }),
       });
 
@@ -64,6 +116,10 @@ const Contact = () => {
       setLastSubmitAt(Date.now());
       alert("Thank you. I will get back to you as soon as possible.");
       setForm({ name: "", email: "", message: "" });
+      if (window.turnstile && turnstileWidgetId.current !== null) {
+        window.turnstile.reset(turnstileWidgetId.current);
+      }
+      setTurnstileToken("");
     } catch (error) {
       console.log(error);
       alert("Something went wrong.");
@@ -142,6 +198,14 @@ const Contact = () => {
           >
             {loading ? "Sending..." : "Send"}
           </button>
+          <div className="flex flex-col gap-2">
+            <div ref={turnstileRef} />
+            {turnstileError ? (
+              <span className="text-[12px] text-red-400">
+                Verification failed. Please refresh and try again.
+              </span>
+            ) : null}
+          </div>
         </form>
       </motion.div>
 
