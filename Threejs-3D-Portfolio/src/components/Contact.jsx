@@ -1,6 +1,5 @@
-import { useState, useRef } from "react";
+import { useEffect, useState, useRef } from "react";
 import { motion } from "framer-motion";
-import emailjs from "@emailjs/browser";
 
 import { styles } from "../styles";
 import { EarthCanvas } from "./canvas";
@@ -17,21 +16,56 @@ const Contact = () => {
   const [loading, setLoading] = useState(false);
   const [honeypot, setHoneypot] = useState("");
   const [lastSubmitAt, setLastSubmitAt] = useState(0);
+  const [turnstileToken, setTurnstileToken] = useState("");
+  const [turnstileError, setTurnstileError] = useState(false);
+  const turnstileRef = useRef(null);
+  const turnstileWidgetId = useRef(null);
+  const turnstileSiteKey = import.meta.env.VITE_TURNSTILE_SITE_KEY;
 
-  const emailConfig = {
-    serviceId: import.meta.env.VITE_EMAILJS_SERVICE_ID,
-    templateId: import.meta.env.VITE_EMAILJS_TEMPLATE_ID,
-    publicKey: import.meta.env.VITE_EMAILJS_PUBLIC_KEY,
-    toName: import.meta.env.VITE_EMAILJS_TO_NAME || "Angel Camacho",
-    toEmail: import.meta.env.VITE_EMAILJS_TO_EMAIL,
-  };
+  useEffect(() => {
+    if (!turnstileSiteKey || !turnstileRef.current) {
+      return;
+    }
+
+    let attempts = 0;
+    const renderWidget = () => {
+      if (!window.turnstile || !turnstileRef.current) {
+        return false;
+      }
+
+      turnstileWidgetId.current = window.turnstile.render(turnstileRef.current, {
+        sitekey: turnstileSiteKey,
+        callback: (token) => {
+          setTurnstileToken(token);
+          setTurnstileError(false);
+        },
+        "error-callback": () => setTurnstileError(true),
+        "expired-callback": () => setTurnstileToken(""),
+      });
+
+      return true;
+    };
+
+    if (renderWidget()) {
+      return;
+    }
+
+    const interval = setInterval(() => {
+      attempts += 1;
+      if (renderWidget() || attempts > 20) {
+        clearInterval(interval);
+      }
+    }, 250);
+
+    return () => clearInterval(interval);
+  }, [turnstileSiteKey]);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
     setForm({ ...form, [name]: value });
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     if (loading) {
       return;
@@ -52,44 +86,46 @@ const Contact = () => {
       alert("Please enter a valid email address.");
       return;
     }
-    if (!emailConfig.serviceId || !emailConfig.templateId || !emailConfig.publicKey || !emailConfig.toEmail) {
-      alert("Email service is not configured.");
+    if (!turnstileSiteKey) {
+      alert("Verification is not configured.");
+      return;
+    }
+    if (!turnstileToken) {
+      alert("Please complete the verification.");
       return;
     }
     setLoading(true);
 
-    emailjs
-      .send(
-        emailConfig.serviceId,
-        emailConfig.templateId,
-        {
-          form_name: form.name.trim(),
-          to_name: emailConfig.toName,
-          from_email: form.email.trim(),
-          to_email: emailConfig.toEmail,
+    try {
+      const response = await fetch("/api/contact", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          name: form.name.trim(),
+          email: form.email.trim(),
           message: form.message.trim(),
-        },
-        emailConfig.publicKey
-      )
-      .then(
-        () => {
-          setLoading(false);
-          setLastSubmitAt(Date.now());
-          alert("Thank you. I will get back to you as soon as possible.");
+          website: honeypot.trim(),
+          turnstileToken,
+        }),
+      });
 
-          setForm({
-            name: "",
-            email: "",
-            message: "",
-          });
-        },
-        (error) => {
-          setLoading(false);
+      if (!response.ok) {
+        throw new Error("Failed to send message.");
+      }
 
-          console.log(error);
-          alert("Something went wrong.");
-        }
-      );
+      setLastSubmitAt(Date.now());
+      alert("Thank you. I will get back to you as soon as possible.");
+      setForm({ name: "", email: "", message: "" });
+      if (window.turnstile && turnstileWidgetId.current !== null) {
+        window.turnstile.reset(turnstileWidgetId.current);
+      }
+      setTurnstileToken("");
+    } catch (error) {
+      console.log(error);
+      alert("Something went wrong.");
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
@@ -162,6 +198,14 @@ const Contact = () => {
           >
             {loading ? "Sending..." : "Send"}
           </button>
+          <div className="flex flex-col gap-2">
+            <div ref={turnstileRef} />
+            {turnstileError ? (
+              <span className="text-[12px] text-red-400">
+                Verification failed. Please refresh and try again.
+              </span>
+            ) : null}
+          </div>
         </form>
       </motion.div>
 
