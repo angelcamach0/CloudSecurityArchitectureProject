@@ -26,6 +26,7 @@ import {
   linux,
   rhel,
   nmsu,
+  ETVA,
   anthonySchool,
   itech,
   googleDocs,
@@ -127,7 +128,7 @@ const experiences = [
   {
     title: "Cloud Security Engineer (Sustainment Test/Validation)",
     company_name: "Emerging Technology Ventures Inc.",
-    icon: null,
+    icon: ETVA,
     iconBg: "#383E56",
     date: "Oct 2023 – Sep 2025",
     points: [

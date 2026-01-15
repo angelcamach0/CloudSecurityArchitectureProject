@@ -22,6 +22,7 @@ import typescript from "./tech/typescript.png";
 import threejs from "./tech/threejs.svg";
 
 import meta from "./company/meta.png";
+import ETVA from "./company/ETVA.jpeg";
 
 import carrent from "./carrent.png";
 import jobit from "./jobit.png";
@@ -65,6 +66,7 @@ export {
   typescript,
   threejs,
   meta,
+  ETVA,
   carrent,
   jobit,
   tripguide,

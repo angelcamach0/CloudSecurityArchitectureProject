@@ -48,21 +48,24 @@ const About = () => {
         variants={fadeIn("", "", 0.1, 1)}
         className="mt-4 text-secondary text-[17px] max-w-3xl leading-[30px]"
       >
-        I'm Angel Camacho, a computer science under-graduate from NMSU with a focus on cloud security architecture. My academic and hands-on experiences have honed my skills in designing and securing robust cloud infrastructures.
+        I'm a Computer Science graduate with a strong focus on cybersecurity,
+        Linux systems, and cloud infrastructure. My work centers on building,
+        securing, and maintaining systems that are meant to stay reliable over
+        time, not just work once. I enjoy operating close to the system level,
+        virtual machines, services, logs, access controls, and security
+        controls, where small changes can have large impacts.
       </motion.p>
 
       <motion.p
         variants={fadeIn("", "", 0.1, 1)}
         className="mt-4 text-secondary text-[17px] max-w-3xl leading-[30px]"
       >
-        One notable project is the Asset Management System for the Exotic Pet Market. It's a testament to my ability to apply architectural principles diversely. This system integrates cloud infrastructure, microservices, and top-tier security measures. I invite you to delve deeper into this project within my portfolio.
-      </motion.p>
-
-      <motion.p
-        variants={fadeIn("", "", 0.1, 1)}
-        className="mt-4 text-secondary text-[17px] max-w-3xl leading-[30px]"
-      >
-        My future goal is to be a leading figure in cloud security architecture, especially within governmental sectors. I'm committed to ensuring organizations navigate the digital landscape securely and confidently. Let's fortify the future of cloud computing together.
+        Through hands-on projects and professional experience, I've developed a
+        sustainment mindset: make controlled changes, validate behavior before
+        and after, document evidence, and be ready to troubleshoot when things
+        break. I'm especially interested in roles where security, testing, and
+        long-term system reliability intersect, and where careful engineering
+        matters more than flashy features.
       </motion.p>
 
       <div className="mt-20 flex flex-wrap gap-10">
