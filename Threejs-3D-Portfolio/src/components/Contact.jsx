@@ -1,6 +1,5 @@
 import { useState, useRef } from "react";
 import { motion } from "framer-motion";
-import emailjs from "@emailjs/browser";
 
 import { styles } from "../styles";
 import { EarthCanvas } from "./canvas";
@@ -18,20 +17,12 @@ const Contact = () => {
   const [honeypot, setHoneypot] = useState("");
   const [lastSubmitAt, setLastSubmitAt] = useState(0);
 
-  const emailConfig = {
-    serviceId: import.meta.env.VITE_EMAILJS_SERVICE_ID,
-    templateId: import.meta.env.VITE_EMAILJS_TEMPLATE_ID,
-    publicKey: import.meta.env.VITE_EMAILJS_PUBLIC_KEY,
-    toName: import.meta.env.VITE_EMAILJS_TO_NAME || "Angel Camacho",
-    toEmail: import.meta.env.VITE_EMAILJS_TO_EMAIL,
-  };
-
   const handleChange = (e) => {
     const { name, value } = e.target;
     setForm({ ...form, [name]: value });
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     if (loading) {
       return;
@@ -52,44 +43,33 @@ const Contact = () => {
       alert("Please enter a valid email address.");
       return;
     }
-    if (!emailConfig.serviceId || !emailConfig.templateId || !emailConfig.publicKey || !emailConfig.toEmail) {
-      alert("Email service is not configured.");
-      return;
-    }
     setLoading(true);
 
-    emailjs
-      .send(
-        emailConfig.serviceId,
-        emailConfig.templateId,
-        {
-          form_name: form.name.trim(),
-          to_name: emailConfig.toName,
-          from_email: form.email.trim(),
-          to_email: emailConfig.toEmail,
+    try {
+      const response = await fetch("/api/contact", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          name: form.name.trim(),
+          email: form.email.trim(),
           message: form.message.trim(),
-        },
-        emailConfig.publicKey
-      )
-      .then(
-        () => {
-          setLoading(false);
-          setLastSubmitAt(Date.now());
-          alert("Thank you. I will get back to you as soon as possible.");
+          website: honeypot.trim(),
+        }),
+      });
 
-          setForm({
-            name: "",
-            email: "",
-            message: "",
-          });
-        },
-        (error) => {
-          setLoading(false);
+      if (!response.ok) {
+        throw new Error("Failed to send message.");
+      }
 
-          console.log(error);
-          alert("Something went wrong.");
-        }
-      );
+      setLastSubmitAt(Date.now());
+      alert("Thank you. I will get back to you as soon as possible.");
+      setForm({ name: "", email: "", message: "" });
+    } catch (error) {
+      console.log(error);
+      alert("Something went wrong.");
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
