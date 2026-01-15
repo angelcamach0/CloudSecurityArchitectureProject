@@ -33,6 +33,8 @@ import {
   ZiadArafat,
   BradleyRoss,
   MatthewGroover,
+  LuisMendoza,
+  GabrielMauger,
 } from "../assets";
 
 export const navLinks = [
@@ -123,49 +125,61 @@ const technologies = [
 
 const experiences = [
   {
-    title: "Web Developer",
-    company_name: "NMSU Art Museum",
-    icon: nmsu, 
+    title: "Cloud Security Engineer (Sustainment Test/Validation)",
+    company_name: "Emerging Technology Ventures Inc.",
+    icon: null,
     iconBg: "#383E56",
-    date: "August 2020 – March 2023",
+    date: "Oct 2023 – Sep 2025",
     points: [
-      "Transitioned the NMSU Art Museum website from WordPress to Cascade CMS.",
-      "Served dual roles as a desk attendant and art gallery organizer.",
-      "https://uam.nmsu.edu/"
+      "Operated and hardened Linux virtualized environments (Proxmox; RHEL/Debian), enforcing least privilege and secure services.",
+      "Validated patches/changes with repeatable verification steps, log review, and smoke tests.",
+      "Supported CMMC 2.0 / NIST SP 800-171 readiness via SOPs, secure configuration practices, and audit evidence.",
+    ],
+  },
+  {
+    title: "Software Developer (Backend & Systems Support)",
+    company_name: "NMSU Art Museum (UAM)",
+    icon: nmsu,
+    iconBg: "#383E56",
+    date: "Aug 2020 – Mar 2023",
+    points: [
+      "Maintained legacy C/PostgreSQL backend with parameterized queries and transaction-safe updates.",
+      "Diagnosed production issues via Nginx/system/DB logs and validated fixes with targeted queries.",
+      "Migrated WordPress to Cascade CMS and validated auth, permissions, backups, and cutover readiness.",
     ],
   },
   {
     title: "Volunteer Tutor",
     company_name: "Colonias Developmental Council",
-    icon: meta, // You might need to add an appropriate icon for Colonias
+    icon: meta,
     iconBg: "#E6DEDD",
-    date: "May 2018 – September 2019",
+    date: "May 2018 – Sep 2019",
     points: [
-      "Assisted U.S. residents in preparing for citizenship interviews.",
-      "Collaborated with the Colonias council to devise innovative learning methods, enhancing student success rates.",
-      "https://colonias.nmsu.edu/"
+      "Prepared U.S. residents for citizenship interviews and guided study sessions.",
+      "Collaborated with staff to improve learning materials and student outcomes.",
     ],
   },
   {
-    title: "Computation Assistant / Teacher Assistant",
+    title: "IT Systems Administrator (Intern/Assistant)",
     company_name: "Anthony Charter School",
-    icon: anthonySchool, 
-    iconBg: "#383E56",
-    date: "January 2017 - June 2018",
+    icon: anthonySchool,
+    iconBg: "#E6DEDD",
+    date: "Jan 2017 – Jun 2019",
     points: [
-      "Supported teaching staff with IT-related tasks, including cloud file transfers and hardware troubleshooting.",
-      "Spearheaded the development of the school's website and provided interim IT consultancy."
+      "Administered Linux systems via SSH/Bash; managed users, permissions, and services.",
+      "Triaged Wi-Fi and DHCP/DNS issues, escalating upstream when needed and documenting fixes.",
+      "Built internal SQL Server reporting backend with schema design, constraints, and exportable reports.",
     ],
   },
   {
     title: "Volunteer & Robotics Club Member",
     company_name: "I Technical Preparatory Academy",
-    icon: itech, 
+    icon: itech,
     iconBg: "#E6DEDD",
-    date: "January 2016 - August 2017",
+    date: "Jan 2016 – Aug 2017",
     points: [
-      "Contributed over 200 hours to community service initiatives, including street cleaning and marathon organization.",
-      "Led student leadership programs and represented the academy in Vex Robotics Competitions at the national level."
+      "Contributed 200+ community service hours, including event support and campus initiatives.",
+      "Led student leadership activities and represented the academy in VEX Robotics competitions.",
     ],
   },
 ];
@@ -178,7 +192,7 @@ const testimonials = [
     name: "Ziad Arafat",
     designation: "Lead Software Engineer",
     company: "Emerging Technology Ventures Inc.",
-    image: "https://drive.google.com/uc?export=view&id=179387kFnfpRU5Z0gSU3PxM-y_lwBAT9B",
+    image: ZiadArafat,
   },
   {
     testimonial:
@@ -186,14 +200,15 @@ const testimonials = [
     name: "Luis Mendoza",
     designation: "Software Engineer",
     company: "Gainwell",
-    image: "https://drive.google.com/uc?export=view&id=1hoQDuqBPhd50OAxYcVAo0ail_rlsuKpD",
+    image: LuisMendoza,
   },
   {
-    testimonial: "",
+    testimonial:
+      "Angel is exactly the kind of engineer you want on a sustainment team. He’s comfortable working in Linux, troubleshooting issues through logs and system tools, and making controlled changes without breaking systems. He learns quickly, takes initiative, and reliably documents his work so systems stay stable and secure.",
     name: "Bradley Ross",
     designation: "Junior Machine Learning Engineer",
     company: "Certilytics",
-    image: "https://drive.google.com/uc?export=view&id=17LRa3iAVP9IYWCiSsQUIWK2uEu6M2X3d",
+    image: BradleyRoss,
   },
   {
     testimonial:
@@ -201,7 +216,7 @@ const testimonials = [
     name: "Matthew Groover",
     designation: "Graduate Assistant",
     company: "New Mexico State University",
-    image: "https://drive.google.com/uc?export=view&id=1RBniQoffdb2u5kl91j410uUrzzIkDHgX",
+    image: MatthewGroover,
   },
   {
     testimonial:
@@ -209,7 +224,7 @@ const testimonials = [
     name: "Gabriel Mauger",
     designation: "Software Engineer",
     company: "Emerging Technology Ventures Inc.",
-    image: "https://drive.google.com/uc?export=view&id=1-szop4FOKypZBerT6AOngXAnPlush4_t",
+    image: GabrielMauger,
   },
 ];
 

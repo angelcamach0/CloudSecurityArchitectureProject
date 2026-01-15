@@ -1,5 +1,10 @@
 
 <!-- Acknowledgments -->
+## Security Notes
+
+- This app uses a basic CSP and referrer policy in `index.html` for local/dev.
+- For production, set equivalent headers at the hosting layer (Netlify/Vercel/CloudFront) to enforce them.
+
 ## :gem: Acknowledgements
 
 This section used to mention useful resources and libraries that used in 3D Portfolio

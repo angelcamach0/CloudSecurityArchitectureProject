@@ -39,6 +39,8 @@ import rhel from "./tech/rhel.png";
 import ZiadArafat from "./team/ZiadArafat.jpeg";
 import BradleyRoss from "./team/BradleyRoss.jpeg";
 import MatthewGroover from "./team/MatthewGroover.jpeg";
+import LuisMendoza from "./team/LuisMendoza.jpeg";
+import GabrielMauger from "./team/GabrielMauger.jpeg";
 
 export {
   logo,
@@ -79,4 +81,6 @@ export {
   ZiadArafat,
   BradleyRoss,
   MatthewGroover,
+  LuisMendoza,
+  GabrielMauger,
 };

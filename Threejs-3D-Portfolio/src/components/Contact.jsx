@@ -15,6 +15,16 @@ const Contact = () => {
     message: "",
   });
   const [loading, setLoading] = useState(false);
+  const [honeypot, setHoneypot] = useState("");
+  const [lastSubmitAt, setLastSubmitAt] = useState(0);
+
+  const emailConfig = {
+    serviceId: import.meta.env.VITE_EMAILJS_SERVICE_ID,
+    templateId: import.meta.env.VITE_EMAILJS_TEMPLATE_ID,
+    publicKey: import.meta.env.VITE_EMAILJS_PUBLIC_KEY,
+    toName: import.meta.env.VITE_EMAILJS_TO_NAME || "Angel Camacho",
+    toEmail: import.meta.env.VITE_EMAILJS_TO_EMAIL,
+  };
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -23,24 +33,48 @@ const Contact = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
+    if (loading) {
+      return;
+    }
+    if (honeypot.trim()) {
+      return;
+    }
+    const now = Date.now();
+    if (now - lastSubmitAt < 15000) {
+      alert("Please wait a moment before sending another message.");
+      return;
+    }
+    if (!form.name.trim() || !form.message.trim()) {
+      alert("Please fill out your name and message.");
+      return;
+    }
+    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(form.email.trim())) {
+      alert("Please enter a valid email address.");
+      return;
+    }
+    if (!emailConfig.serviceId || !emailConfig.templateId || !emailConfig.publicKey || !emailConfig.toEmail) {
+      alert("Email service is not configured.");
+      return;
+    }
     setLoading(true);
 
     emailjs
       .send(
-        "service_r0jcplm",
-        "template_1t76uxq",
+        emailConfig.serviceId,
+        emailConfig.templateId,
         {
-          form_name: form.name,
-          to_name: "Angel Camacho",
-          from_email: form.email,
-          to_email: "theangelcamacho@gmail.com",
-          message: form.message,
+          form_name: form.name.trim(),
+          to_name: emailConfig.toName,
+          from_email: form.email.trim(),
+          to_email: emailConfig.toEmail,
+          message: form.message.trim(),
         },
-        "Jqq9AvwIuSjoMiA5c"
+        emailConfig.publicKey
       )
       .then(
         () => {
           setLoading(false);
+          setLastSubmitAt(Date.now());
           alert("Thank you. I will get back to you as soon as possible.");
 
           setForm({
@@ -74,6 +108,17 @@ const Contact = () => {
           onSubmit={handleSubmit}
           className="mt-12 flex flex-col gap-8"
         >
+          <label className="hidden">
+            <span>Website</span>
+            <input
+              type="text"
+              name="website"
+              value={honeypot}
+              onChange={(e) => setHoneypot(e.target.value)}
+              autoComplete="off"
+              tabIndex="-1"
+            />
+          </label>
           <label className="flex flex-col">
             <span className="text-white font-medium mb-4">Your Name</span>
             <input
@@ -82,6 +127,7 @@ const Contact = () => {
               value={form.name}
               onChange={handleChange}
               placeholder="What's your name?"
+              required
               className="bg-tertiary py-4 px-6 placeholder:text-secondary text-white rounded-lg outline-none border-none font-medium"
             />
           </label>
@@ -93,6 +139,7 @@ const Contact = () => {
               value={form.email}
               onChange={handleChange}
               placeholder="What's your email?"
+              required
               className="bg-tertiary py-4 px-6 placeholder:text-secondary text-white rounded-lg outline-none border-none font-medium"
             />
           </label>
@@ -104,6 +151,7 @@ const Contact = () => {
               value={form.message}
               onChange={handleChange}
               placeholder="What do you want to say?"
+              required
               className="bg-tertiary py-4 px-6 placeholder:text-secondary text-white rounded-lg outline-none border-none font-medium"
             />
           </label>
