@@ -19,6 +19,7 @@ import {
   carrent,
   jobit,
   tripguide,
+  BioZeroProjectUI,
   threejs,
   java,
   cpp,
@@ -231,6 +232,27 @@ const testimonials = [
 
 
 const projects = [
+  {
+    name: "Bio Cyber Defense Lab (BCDL)",
+    description:
+      "Zero-trust, cloud-native bio-cyber lab for secure genomic processing, bio-threat detection, adversary simulation, and automated incident response.",
+    tags: [
+      {
+        name: "biosecurity, lab systems, zero-trust",
+        color: "blue-text-gradient",
+      },
+      {
+        name: "PKI, mTLS, secure workflows",
+        color: "green-text-gradient",
+      },
+      {
+        name: "SIEM, automation, adversary simulation",
+        color: "pink-text-gradient",
+      },
+    ],
+    image: BioZeroProjectUI,
+    source_code_link: "https://github.com/angelcamach0/bio-cyber-defense-lab-bcdl",
+  },
   {
     name: "Cloud Security Architecture Project For Portfolio",
     description:

@@ -27,6 +27,7 @@ import ETVA from "./company/ETVA.jpeg";
 import carrent from "./carrent.png";
 import jobit from "./jobit.png";
 import tripguide from "./tripguide.png";
+import BioZeroProjectUI from "./BioZeroProjectUI.png";
 import nmsu from "./company/nmsu.png";
 import anthonySchool from "./company/anthonySchool.png";
 import itech from "./company/itech.png";
@@ -70,6 +71,7 @@ export {
   carrent,
   jobit,
   tripguide,
+  BioZeroProjectUI,
   nmsu,
   anthonySchool,
   itech,
