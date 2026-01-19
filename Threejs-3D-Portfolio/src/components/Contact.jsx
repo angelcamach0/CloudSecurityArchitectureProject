@@ -18,6 +18,7 @@ const Contact = () => {
   const [lastSubmitAt, setLastSubmitAt] = useState(0);
   const [turnstileToken, setTurnstileToken] = useState("");
   const [turnstileError, setTurnstileError] = useState(false);
+  const [turnstileLoadFailed, setTurnstileLoadFailed] = useState(false);
   const turnstileRef = useRef(null);
   const turnstileWidgetId = useRef(null);
   const turnstileSiteKey = import.meta.env.VITE_TURNSTILE_SITE_KEY;
@@ -50,6 +51,7 @@ const Contact = () => {
         callback: (token) => {
           setTurnstileToken(token);
           setTurnstileError(false);
+          setTurnstileLoadFailed(false);
         },
         "error-callback": () => setTurnstileError(true),
         "expired-callback": () => setTurnstileToken(""),
@@ -64,6 +66,7 @@ const Contact = () => {
 
     const handleScriptError = () => {
       setTurnstileError(true);
+      setTurnstileLoadFailed(true);
     };
 
     scriptEl = document.querySelector(scriptSelector);
@@ -97,6 +100,7 @@ const Contact = () => {
       if (renderWidget() || attempts > 120) {
         if (attempts > 120) {
           setTurnstileError(true);
+          setTurnstileLoadFailed(true);
         }
         clearInterval(intervalId);
       }
@@ -145,6 +149,12 @@ const Contact = () => {
       return;
     }
     if (!turnstileToken) {
+      if (turnstileLoadFailed || !window.turnstile) {
+        alert(
+          "Verification failed to load. Please disable blockers, refresh the page, and try again."
+        );
+        return;
+      }
       alert("Please complete the verification.");
       return;
     }
@@ -254,7 +264,12 @@ const Contact = () => {
           </button>
           <div className="flex flex-col gap-2">
             <div ref={turnstileRef} />
-            {turnstileError ? (
+            {turnstileLoadFailed ? (
+              <span className="text-[12px] text-red-400">
+                Verification failed to load. Disable blockers and refresh.
+              </span>
+            ) : null}
+            {!turnstileLoadFailed && turnstileError ? (
               <span className="text-[12px] text-red-400">
                 Verification failed. Please refresh and try again.
               </span>
