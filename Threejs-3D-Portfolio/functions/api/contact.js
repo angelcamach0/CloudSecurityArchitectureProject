@@ -18,6 +18,11 @@ function sanitizeInput(value, maxLength) {
 
 export async function onRequestPost({ request, env }) {
   try {
+    const url = new URL(request.url);
+    if (url.searchParams.get("debug") === "1" || request.headers.get("x-debug") === "1") {
+      return jsonResponse({ ok: true, debug: true });
+    }
+
     let payload;
     try {
       payload = await request.json();
