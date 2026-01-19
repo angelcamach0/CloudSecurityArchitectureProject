@@ -53,13 +53,18 @@ export async function onRequestPost({ request, env }) {
   turnstileForm.append("response", turnstileToken);
   turnstileForm.append("remoteip", ip);
 
-  const turnstileResponse = await fetch(
-    "https://challenges.cloudflare.com/turnstile/v0/siteverify",
-    {
-      method: "POST",
-      body: turnstileForm,
-    }
-  );
+  let turnstileResponse;
+  try {
+    turnstileResponse = await fetch(
+      "https://challenges.cloudflare.com/turnstile/v0/siteverify",
+      {
+        method: "POST",
+        body: turnstileForm,
+      }
+    );
+  } catch {
+    return jsonResponse({ ok: false, error: "Verification request failed." }, 502);
+  }
 
   if (!turnstileResponse.ok) {
     return jsonResponse({ ok: false, error: "Verification failed." }, 502);
@@ -117,14 +122,32 @@ export async function onRequestPost({ request, env }) {
     ],
   };
 
-  const response = await fetch("https://api.mailchannels.net/tx/v1/send", {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify(body),
-  });
+  let response;
+  try {
+    response = await fetch("https://api.mailchannels.net/tx/v1/send", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(body),
+    });
+  } catch {
+    return jsonResponse({ ok: false, error: "Email service unreachable." }, 502);
+  }
 
   if (!response.ok) {
-    return jsonResponse({ ok: false, error: "Email send failed." }, 502);
+    let upstreamError = "";
+    try {
+      upstreamError = (await response.text()).slice(0, 500);
+    } catch {
+      upstreamError = "";
+    }
+    return jsonResponse(
+      {
+        ok: false,
+        error: "Email send failed.",
+        detail: upstreamError || "Upstream error.",
+      },
+      502
+    );
   }
 
   return jsonResponse({ ok: true });
