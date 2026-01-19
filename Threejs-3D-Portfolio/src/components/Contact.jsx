@@ -174,7 +174,27 @@ const Contact = () => {
       });
 
       if (!response.ok) {
-        throw new Error("Failed to send message.");
+        let message = "Failed to send message.";
+        try {
+          const data = await response.json();
+          if (data?.error) {
+            message = data.error;
+            if (data?.detail) {
+              message = `${message} ${data.detail}`;
+            }
+          }
+        } catch {
+          try {
+            const text = await response.text();
+            if (text.includes("502")) {
+              message = "Server error (502). Please try again shortly.";
+            }
+          } catch {
+            // Keep default message.
+          }
+        }
+        alert(message);
+        return;
       }
 
       setLastSubmitAt(Date.now());

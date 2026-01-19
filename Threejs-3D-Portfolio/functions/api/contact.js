@@ -17,12 +17,13 @@ function sanitizeInput(value, maxLength) {
 }
 
 export async function onRequestPost({ request, env }) {
-  let payload;
   try {
-    payload = await request.json();
-  } catch {
-    return jsonResponse({ ok: false, error: "Invalid JSON." }, 400);
-  }
+    let payload;
+    try {
+      payload = await request.json();
+    } catch {
+      return jsonResponse({ ok: false, error: "Invalid JSON." }, 400);
+    }
 
   const name = sanitizeInput(payload.name, 100);
   const email = sanitizeInput(payload.email, 200);
@@ -133,22 +134,26 @@ export async function onRequestPost({ request, env }) {
     return jsonResponse({ ok: false, error: "Email service unreachable." }, 502);
   }
 
-  if (!response.ok) {
-    let upstreamError = "";
-    try {
-      upstreamError = (await response.text()).slice(0, 500);
-    } catch {
-      upstreamError = "";
+    if (!response.ok) {
+      let upstreamError = "";
+      try {
+        upstreamError = (await response.text()).slice(0, 500);
+      } catch {
+        upstreamError = "";
+      }
+      return jsonResponse(
+        {
+          ok: false,
+          error: "Email send failed.",
+          detail: upstreamError || "Upstream error.",
+        },
+        502
+      );
     }
-    return jsonResponse(
-      {
-        ok: false,
-        error: "Email send failed.",
-        detail: upstreamError || "Upstream error.",
-      },
-      502
-    );
-  }
 
-  return jsonResponse({ ok: true });
+    return jsonResponse({ ok: true });
+  } catch (error) {
+    const message = error instanceof Error ? error.message : "Unexpected error.";
+    return jsonResponse({ ok: false, error: "Server error.", detail: message }, 500);
+  }
 }
