@@ -157,3 +157,7 @@ export async function onRequestPost({ request, env }) {
     return jsonResponse({ ok: false, error: "Server error.", detail: message }, 500);
   }
 }
+
+export async function onRequestGet() {
+  return jsonResponse({ ok: true });
+}
