@@ -27,10 +27,22 @@ const Contact = () => {
       return;
     }
 
+    let cancelled = false;
     let attempts = 0;
+    let intervalId = null;
+    let scriptEl = null;
+    const scriptSelector = 'script[data-turnstile="1"]';
     const renderWidget = () => {
+      if (cancelled) {
+        return false;
+      }
       if (!window.turnstile || !turnstileRef.current) {
         return false;
+      }
+
+      if (turnstileWidgetId.current !== null) {
+        window.turnstile.remove(turnstileWidgetId.current);
+        turnstileWidgetId.current = null;
       }
 
       turnstileWidgetId.current = window.turnstile.render(turnstileRef.current, {
@@ -46,18 +58,60 @@ const Contact = () => {
       return true;
     };
 
-    if (renderWidget()) {
-      return;
+    const handleScriptLoad = () => {
+      renderWidget();
+    };
+
+    const handleScriptError = () => {
+      setTurnstileError(true);
+    };
+
+    scriptEl = document.querySelector(scriptSelector);
+    if (!scriptEl) {
+      scriptEl = document.createElement("script");
+      scriptEl.src =
+        "https://challenges.cloudflare.com/turnstile/v0/api.js?render=explicit";
+      scriptEl.async = true;
+      scriptEl.defer = true;
+      scriptEl.dataset.turnstile = "1";
+      scriptEl.addEventListener("load", handleScriptLoad);
+      scriptEl.addEventListener("error", handleScriptError);
+      document.body.appendChild(scriptEl);
+    } else {
+      scriptEl.addEventListener("load", handleScriptLoad);
+      scriptEl.addEventListener("error", handleScriptError);
     }
 
-    const interval = setInterval(() => {
+    if (renderWidget()) {
+      return () => {
+        cancelled = true;
+        if (scriptEl) {
+          scriptEl.removeEventListener("load", handleScriptLoad);
+          scriptEl.removeEventListener("error", handleScriptError);
+        }
+      };
+    }
+
+    intervalId = setInterval(() => {
       attempts += 1;
-      if (renderWidget() || attempts > 20) {
-        clearInterval(interval);
+      if (renderWidget() || attempts > 120) {
+        if (attempts > 120) {
+          setTurnstileError(true);
+        }
+        clearInterval(intervalId);
       }
     }, 250);
 
-    return () => clearInterval(interval);
+    return () => {
+      cancelled = true;
+      if (intervalId) {
+        clearInterval(intervalId);
+      }
+      if (scriptEl) {
+        scriptEl.removeEventListener("load", handleScriptLoad);
+        scriptEl.removeEventListener("error", handleScriptError);
+      }
+    };
   }, [turnstileSiteKey]);
 
   const handleChange = (e) => {
